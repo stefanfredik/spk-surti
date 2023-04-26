@@ -67,9 +67,8 @@
                         </div>
                     </div>
 
-
-
                     <hr>
+
                     <h4>Data Orang Tua</h4>
                     <div class="row mb-2">
                         <div class="col-md-4">
@@ -79,16 +78,6 @@
                             <input name="nama_orangtua" type="text" class="form-control" required>
                         </div>
                     </div>
-
-                    <div class="row mb-2">
-                        <div class="col-md-4">
-                            <label class="form-label">Jumlah Tanggungan</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input name="jumlah_tanggungan" type="text" class="form-control" required>
-                        </div>
-                    </div>
-
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <label class="form-label">Alamat</label>
@@ -97,7 +86,6 @@
                             <input name="alamat" type="text" class="form-control" required>
                         </div>
                     </div>
-
 
                     <div class="row mb-2">
                         <div class="col-md-4">
