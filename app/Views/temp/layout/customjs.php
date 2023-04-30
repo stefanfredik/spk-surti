@@ -1,4 +1,5 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     const Toast = Swal.mixin({
@@ -202,6 +203,61 @@
                 icon: 'error',
                 title: 'Gagal mendapatkan data!'
             })
+        });
+    }
+
+
+    async function upload(event) {
+        event.preventDefault();
+
+        // Menampilkan animasi loading
+        $('#loading').show();
+        $('#formUpload').hide();
+
+        // Mengirim file Excel ke server menggunakan Ajax
+        // var formData = new FormData($(this)[0]);
+        let form = document.querySelector("form");
+        let url = form.getAttribute("action");
+        const data = new FormData(form);
+        const modal = $("#modal");
+
+        $.ajax({
+            url: `${url}/upload`,
+            type: 'POST',
+            data: data,
+            async: true,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(res) {
+                console.log(res);
+                // Menyembunyikan animasi loading
+                $('#loading').hide();
+                modal.modal("hide");
+                getTable(url)
+
+                Toast.fire({
+                    icon: res.status,
+                    title: res.msg
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#loading').hide();
+                modal.modal("hide");
+                getTable(url)
+                if (jqXHR.responseJSON.error) {
+                    Toast.fire({
+                        icon: "error",
+                        title: `Upload Gagal. ${jqXHR.responseJSON.error}`,
+                    });
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: `Upload Gagal.`,
+                    });
+                }
+
+            }
         });
     }
 </script>

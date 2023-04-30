@@ -18,6 +18,15 @@
 
                     <div class="row mb-2">
                         <div class="col-md-4">
+                            <label class="form-label">NIK</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['nik'] ?>" name="nik" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
                             <label class="form-label">Nama Lengkap</label>
                         </div>
                         <div class="col-md-8">
@@ -60,6 +69,15 @@
 
                     <div class="row mb-2">
                         <div class="col-md-4">
+                            <label class="form-label">Agama</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['agama'] ?>" name="agama" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
                             <label class="form-label">Kelas</label>
                         </div>
                         <div class="col-md-8">
@@ -82,19 +100,59 @@
 
                     <div class="row mb-2">
                         <div class="col-md-4">
-                            <label class="form-label">Jumlah Tanggungan</label>
+                            <label class="form-label">Alamat</label>
                         </div>
                         <div class="col-md-8">
-                            <input value="<?= $siswa['jumlah_tanggungan'] ?>" name="jumlah_tanggungan" type="text" class="form-control" required>
+                            <input value="<?= $siswa['alamat'] ?>" name="alamat" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <label class="form-label">RT</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['rt'] ?>" name="rt" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <label class="form-label">RW</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['rw'] ?>" name="rw" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <label class="form-label">Kelurahan</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['kelurahan'] ?>" name="kelurahan" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <label class="form-label">Kecamatan</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input value="<?= $siswa['kecamatan'] ?>" name="kecamatan" type="text" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="row mb-2">
                         <div class="col-md-4">
-                            <label class="form-label">Alamat</label>
+                            <label class="form-label">Kode POS</label>
                         </div>
                         <div class="col-md-8">
-                            <input value="<?= $siswa['alamat'] ?>" name="alamat" type="text" class="form-control" required>
+                            <input value="<?= $siswa['kode_pos'] ?>" name="kode_pos" type="text" class="form-control" required>
                         </div>
                     </div>
 

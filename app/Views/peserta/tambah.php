@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
 
 
                         <div class="col-md-8">
-                            <select class="form-control" name="id_siswa" id="" required>
+                            <select class="form-select" name="id_siswa" required>
                                 <option value="">Pilih Siswa</option>
                                 <?php foreach ($dataSiswa as $dt) : ?>
                                     <option value="<?= $dt['id']; ?>"><?= $dt['nama_lengkap']; ?></option>
@@ -51,3 +51,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#select').select2({
+        dropdownParent: $('#modal')
+    });
+</script>

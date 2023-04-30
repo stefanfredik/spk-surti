@@ -1,10 +1,10 @@
 <?= $this->extend("temp/index"); ?>
 <?= $this->section("content"); ?>
 
-<div class="row text-center mb-5">
+<div class="row m-1 rounded text-center mb-5 bg-white p-3">
     <div>
-        <h2 class="text-white">Halo Admin</h2>
-        <h4 class="text-white">Selamat datang di <?= APP_DESC; ?></h4>
+        <h2 class="text-cyan">Halo Admin</h2>
+        <h4 class="text-cyan">Selamat datang di <?= APP_DESC; ?></h4>
         <img width="100" class="img-fluid" src="/assets/img/logo.png" alt="">
     </div>
 </div>
