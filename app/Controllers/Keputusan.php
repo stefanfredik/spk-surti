@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\Moora;
+use App\Libraries\TopsisLib;
 use App\Models\KelayakanModel;
 use App\Models\KriteriaModel;
 use App\Models\PesertaModel;
@@ -31,22 +32,22 @@ class Keputusan extends BaseController
         $kriteria       = $this->kriteriaModel->findAll();
         $subkriteria    = $this->subkriteriaModel->findAll();
         $peserta        = $this->pesertaModel->findAllPeserta();
-        $kelayakan      = $this->kelayakanModel->findAll();
 
         helper('Check');
         $check = checkdata($peserta, $kriteria, $subkriteria);
         if ($check) return view('/error/index', ['title' => 'Error', 'listError' => $check]);
 
         $moora = new Moora($peserta, $kriteria, $subkriteria);
+        $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
 
-
+        // dd($moora);
 
 
         $data = [
             'title'         => 'Data Perhitungan dan Table Moora',
             'url'           => $this->meta['url'],
-            'peserta'       => $moora->getAllPeserta(),
-            'kelayakan'     => $kelayakan
+            'mooraPeserta'       => $moora->getAllPeserta(),
+            'topsisPeserta'       => $topsis->getAllPeserta(),
         ];
 
         // $peserta = [];

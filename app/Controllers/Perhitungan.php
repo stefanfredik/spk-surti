@@ -9,6 +9,7 @@ use App\Models\PesertaModel;
 use App\Models\SiswaModel;
 use App\Models\SubkriteriaModel;
 use App\Libraries\Moora;
+use App\Libraries\TopsisLib;
 
 class Perhitungan extends BaseController
 {
@@ -45,12 +46,16 @@ class Perhitungan extends BaseController
 
         // $moora = new Moora($peserta, $kriteria, $subkriteria, $kelayakan);
         $moora = new Moora($peserta, $kriteria, $subkriteria);
+        $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+
+        // dd($topsis);
 
         $data = [
             'title' => 'Data Perhitungan dan Table Moora',
             'dataKriteria' => $this->kriteriaModel->findAll(),
             'totalNilaiKriteria' => $this->totalNilaiKriteria,
-            'peserta' => $moora->getAllPeserta(),
+            'mooraPeserta' => $moora->getAllPeserta(),
+            'topsisPeserta' => $topsis->getAllPeserta(),
             'jumKriteriaBenefit' => $moora->jumKriteriaBenefit,
             'jumKriteriaCost' => $moora->jumKriteriaCost,
             'dataSubkriteria' => $this->subkriteriaModel->findAll(),
