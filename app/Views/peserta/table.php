@@ -4,7 +4,7 @@
             <tr>
                 <th>No</th>
                 <th>Tahun</th>
-                <th>NIK</th>
+                <th>NISN</th>
                 <th>Nama</th>
                 <th>Jenis Kelamin</th>
                 <th>Action</th>

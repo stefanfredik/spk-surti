@@ -6,6 +6,7 @@
                 <th>Kriteria</th>
                 <th>Sub Kriteria</th>
                 <th width="80px" class="text-center">Nilai</th>
+                <th width="80px" class="text-center">Cost/ Benefit</th>
                 <th class="text-center" width="80px">Opsi</th>
             </tr>
         </thead>
@@ -34,6 +35,8 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </td>
+
+                    <td style="justify-content: center; "><?= ucfirst($dk['type']); ?></td>
 
                     <td>
                         <?php foreach ($dataSubkriteria as $sk) : ?>
