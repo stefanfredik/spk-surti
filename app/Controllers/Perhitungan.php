@@ -59,7 +59,9 @@ class Perhitungan extends BaseController
             'jumKriteriaBenefit' => $moora->jumKriteriaBenefit,
             'jumKriteriaCost' => $moora->jumKriteriaCost,
             'dataSubkriteria' => $this->subkriteriaModel->findAll(),
-            'bobotKriteria' => $moora->bobotKriteria
+            'bobotKriteria' => $moora->bobotKriteria,
+            'topsisAplus' => $topsis->aPlus,
+            'topsisAminus' => $topsis->aMinus
         ];
 
         return view('/perhitungan/index', $data);
