@@ -89,7 +89,7 @@ class Moora
             $this->pesertaKriteria[$dk['keterangan']] = array();
 
             foreach ($this->peserta as $dp) {
-                $k = isset($dp['data_kriteria_nilai'][$dk['keterangan']]) ? $dp['data_kriteria_nilai'][$dk['keterangan']] : 'kosong';
+                $k = isset($dp['data_kriteria_nilai'][$dk['keterangan']]) ? $dp['data_kriteria_nilai'][$dk['keterangan']] : 0;
                 array_push($this->pesertaKriteria[$dk['keterangan']], $k);
             }
         }
@@ -213,6 +213,8 @@ class Moora
         if ($bobot == 0) {
             return 0;
         }
+
+        // dd($semuabobot);
 
         foreach ($semuabobot as $arr) {
             $nilai += pow($arr, 2);
