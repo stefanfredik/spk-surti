@@ -139,6 +139,18 @@ $routes->group('user', static function ($router) {
 });
 
 
+$routes->group('kuota', static function ($router) {
+    $router->get("/", 'Kuota::index');
+    $router->get('table', 'Kuota::table');
+    $router->get('tambah', 'Kuota::tambah');
+    $router->get('(:num)', 'Kuota::edit/$1');
+
+    $router->post('/', 'Kuota::store');
+    $router->post("(:num)", "Kuota::update/$1");
+
+    $router->delete("(:num)", "Kuota::delete/$1");
+});
+
 $routes->get("upload", 'Upload::index');
 $routes->post("upload/process", "Upload::process");
 

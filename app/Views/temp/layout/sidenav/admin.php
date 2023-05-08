@@ -43,6 +43,11 @@
     </a>
 
     <div class="sidenav-menu-heading">Pengelolahan</div>
+    <a class="nav-link <?= url_is('/kuota') ? 'active' : '' ?>" href="/kuota">
+        <div class="nav-link-icon"><i data-feather="percent"></i></div>
+        Data Kuota
+    </a>
+
     <a class="nav-link <?= url_is('/perhitungan') ? 'active' : '' ?>" href="/perhitungan">
         <div class="nav-link-icon"><i data-feather="percent"></i></div>
         Data Perhitungan
