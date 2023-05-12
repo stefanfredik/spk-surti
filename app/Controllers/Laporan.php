@@ -36,7 +36,8 @@ class Laporan extends BaseController
             'title' => $this->meta['title'],
             'dataKriteria' => $this->kriteriaModel->findAll(),
             'dataSubkriteria' => $this->subkriteriaModel->findAll(),
-            'peserta' => $this->data()
+            'peserta' => $this->data(),
+            "meta"  => $this->meta
         ];
 
         return view('/laporan/index', $data);

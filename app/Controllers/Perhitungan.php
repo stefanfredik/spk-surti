@@ -14,9 +14,9 @@ use App\Libraries\TopsisLib;
 class Perhitungan extends BaseController
 {
     var $meta = [
-        'url' => 'datasiswa',
-        'title' => 'Data Siswa',
-        'subtitle' => 'Halaman Siswa'
+        'url' => 'perhitungan',
+        'title' => 'Data Pehitungan',
+        'subtitle' => 'Halaman Pehitungan Moora dan Topsis'
     ];
 
     private $totalNilaiKriteria;
@@ -59,7 +59,8 @@ class Perhitungan extends BaseController
             'dataSubkriteria' => $this->subkriteriaModel->findAll(),
             'bobotKriteria' => $moora->bobotKriteria,
             'topsisAplus' => $topsis->aPlus,
-            'topsisAminus' => $topsis->aMinus
+            'topsisAminus' => $topsis->aMinus,
+            "meta"  => $this->meta
         ];
 
         return view('/perhitungan/index', $data);
