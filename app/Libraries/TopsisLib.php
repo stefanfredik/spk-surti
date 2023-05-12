@@ -189,4 +189,12 @@ class TopsisLib
 
         return number_format($bobot / sqrt($nilai), 2);
     }
+
+    public function setRangking()
+    {
+        foreach ($this->dataAkhir as $key => $da) {
+            $this->dataAkhir[$key]['rangking'] = $key + 1;
+            $this->dataAkhir[$key]['periode'] = "";
+        }
+    }
 }

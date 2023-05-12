@@ -18,6 +18,11 @@ class Peserta extends Migration
             ],
             'tahun' => [
                 'type'  => 'INT',
+            ],
+            'validasi' => [
+                'type'  => 'ENUM',
+                'constraint' => ['Valid', 'Tidak Valid', 'Belum Validasi'],
+                'default' => 'Belum Validasi'
             ]
         ];
 

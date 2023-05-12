@@ -7,12 +7,15 @@ use App\Libraries\Moora;
 use App\Libraries\TopsisLib;
 use App\Models\KelayakanModel;
 use App\Models\KriteriaModel;
+use App\Models\KuotaModel;
 use App\Models\PesertaModel;
 use App\Models\SiswaModel;
 use App\Models\SubkriteriaModel;
+use CodeIgniter\API\ResponseTrait;
 
 class Keputusan extends BaseController
 {
+    use ResponseTrait;
     var $meta = [
         'url' => 'keputusan',
         'title' => 'Data Keputusan',
@@ -25,47 +28,139 @@ class Keputusan extends BaseController
         $this->siswaModel = new SiswaModel();
         $this->subkriteriaModel = new SubkriteriaModel();
         $this->pesertaModel = new PesertaModel();
+        $this->kuotaModel = new KuotaModel();
     }
+
+    // public function index()
+    // {
+    //     $kriteria       = $this->kriteriaModel->findAll();
+    //     $subkriteria    = $this->subkriteriaModel->findAll();
+    //     $peserta        = $this->pesertaModel->findAllPeserta();
+    //     $dataKuota      = $this->kuotaModel->findAll();
+
+    //     helper('Check');
+    //     $check = checkdata($peserta, $kriteria, $subkriteria);
+    //     if ($check) return view('/error/index', ['title' => 'Error', 'listError' => $check]);
+
+    //     $moora = new Moora($peserta, $kriteria, $subkriteria);
+    //     $moora->sortPeserta();
+    //     $moora->setRangking();
+    //     $mooraPeserta = $moora->getAllPeserta();
+
+    //     $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+    //     $topsis->sortPeserta();
+    //     $topsis->setRangking();
+    //     $topsisPeserta = $topsis->getAllPeserta();
+
+    //     $data = [
+    //         'title'         => 'Data Perhitungan dan Table Moora',
+    //         'url'           => $this->meta['url'],
+    //         'mooraPeserta'       => $this->statusKeputusan($mooraPeserta, $dataKuota),
+    //         'topsisPeserta'       => $this->statusKeputusan($topsisPeserta, $dataKuota),
+    //     ];
+
+    //     return view('/keputusan/index', $data);
+    // }
+
 
     public function index()
     {
-        $kriteria       = $this->kriteriaModel->findAll();
-        $subkriteria    = $this->subkriteriaModel->findAll();
-        $peserta        = $this->pesertaModel->findAllPeserta();
+        $data = [
+            'title' => $this->meta['title'],
+            'dataKriteria' => $this->kriteriaModel->findAll(),
+            'dataSubkriteria' => $this->subkriteriaModel->findAll(),
+            'peserta' => $this->data(),
+            "meta"  => $this->meta
+        ];
 
-        helper('Check');
-        $check = checkdata($peserta, $kriteria, $subkriteria);
-        if ($check) return view('/error/index', ['title' => 'Error', 'listError' => $check]);
+        // dd($data);
+        return view('/keputusan/index', $data);
+    }
+
+
+    private function data()
+    {
+        $peserta = $this->pesertaModel->findAllPeserta();
+        $kriteria = $this->kriteriaModel->findAll();
+        $subkriteria = $this->subkriteriaModel->findAll();
 
         $moora = new Moora($peserta, $kriteria, $subkriteria);
         $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
 
-        // dd($moora);
+        $moora->setRangking();
+
+        $mooraPeserta = $moora->getAllPeserta();
+        $topsisPeserta = $topsis->getAllPeserta();
+
+        $dataKuota = $this->kuotaModel->findAll();
+
+        $data = $this->statusKeputusan($mooraPeserta, $dataKuota);
+
+        // dd($mooraPeserta)
+        foreach ($mooraPeserta  as $key => $moora) {
+            $data[$key]["nilaiMoora"] = $moora["kriteria_nilai"];
+        }
+
+        foreach ($topsisPeserta  as $key => $topsis) {
+            $data[$key]["nilaiTopsis"] = $topsis["nilaiAkhir"];
+        }
+
+        usort($data, fn ($a, $b) => $b['nilaiTopsis'] <=> $a['nilaiTopsis']);
+        return $data;
+    }
+
+    private function statusKeputusan($dataPeserta, $dataKuota)
+    {
+        // hitung kuota tahunan
+        $kuotaTahun = [];
+        foreach ($dataKuota as $row) {
+            $tahun = $row['tahun'];
+            $jumlahKuota = $row['jumlah_kuota'];
+
+            if (isset($kuotaTahun[$tahun])) {
+                $kuotaTahun[$tahun] += $jumlahKuota;
+            } else {
+                $kuotaTahun[$tahun] = $jumlahKuota;
+            }
+        }
 
 
-        $data = [
-            'title'         => 'Data Perhitungan dan Table Moora',
-            'url'           => $this->meta['url'],
-            'mooraPeserta'       => $moora->getAllPeserta(),
-            'topsisPeserta'       => $topsis->getAllPeserta(),
+        foreach ($dataPeserta as $key => $ps) {
+            $tahun = $ps['tahun'];
+            $rangking = $ps['rangking'];
+            $kuotaPeriode = 0;
+
+            foreach ($dataKuota as $ku) {
+                if ($tahun == $ku['tahun'] && $rangking <= $kuotaTahun[$tahun]) {
+                    $kuotaPeriode += $ku['jumlah_kuota'];
+
+                    $dataPeserta[$key]['status'] = 'Mendapatkan Bantuan';
+                    if ($rangking <= $kuotaPeriode) {
+                        $dataPeserta[$key]['periode'] = $ku['periode'];
+                        $dataPeserta[$key]['tanggalTerima'] = $ku['tanggal_terima'];
+                        break;
+                    }
+                } else {
+                    $dataPeserta[$key]['periode'] = 'Tidak Tersedia';
+                    $dataPeserta[$key]['tanggalTerima'] = 'Tidak Tersedia';
+                    $dataPeserta[$key]['status'] = 'Tidak Mendapatkan Bantuan';
+                }
+            }
+        }
+
+        return $dataPeserta;
+    }
+
+
+    public function validasi($id)
+    {
+        $this->pesertaModel->update($id, ['validasi' => 'Valid']);
+
+        $res = [
+            'status'    => 'success',
+            'msg'     => 'Data berhasil di update.',
         ];
 
-        // $peserta = [];
-
-        // foreach ($data['peserta'] as $key => $ps) {
-        //     $peserta[$key]['nama_lengkap'] = $ps['nama_lengkap'];
-        //     $peserta[$key]['nisn'] = $ps['nisn'];
-        //     $peserta[$key]['tempat_lahir'] = $ps['tempat_lahir'];
-        //     $peserta[$key]['tanggal_lahir'] = $ps['tanggal_lahir'];
-        //     $peserta[$key]['jenis_kelamin'] = $ps['jenis_kelamin'];
-        //     $peserta[$key]['nilai'] = $ps['kriteria_nilai'];
-        //     $peserta[$key]['status_layak'] = $ps['status_layak'];
-        // }
-
-        // $this->keputusanModel->truncate();
-        // $this->keputusanModel->insertBatch($peserta);
-
-
-        return view('/keputusan/index', $data);
+        return $this->respond($res, 200);
     }
 }

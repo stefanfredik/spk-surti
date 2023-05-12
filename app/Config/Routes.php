@@ -30,7 +30,7 @@ $routes->set404Override("App\Controllers\NotFound");
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Dashboard::index');
 $routes->get("login", "Auth::login");
 $routes->get("dashboard", "Dashboard");
 
@@ -155,11 +155,17 @@ $routes->get("upload", 'Upload::index');
 $routes->post("upload/process", "Upload::process");
 
 
-
+$routes->group("keputusan", static function ($router) {
+    $router->get("/", "Keputusan::index");
+    $router->get("validasi/(:num)", "Keputusan::validasi/$1");
+});
 
 $routes->get("perhitungan", 'Perhitungan::index');
-$routes->get("keputusan", 'Keputusan::index');
-$routes->get("laporan", 'Laporan::index');
+
+$routes->group("laporan", static function ($router) {
+    $router->get("/", "Laporan::index");
+    $router->get("cetak", "Laporan::cetak");
+});
 
 // coba
 

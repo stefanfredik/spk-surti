@@ -28,8 +28,6 @@ class Perhitungan extends BaseController
         $this->subkriteriaModel = new SubkriteriaModel();
         $this->pesertaModel = new PesertaModel();
         $this->kelayakanModel = new KelayakanModel();
-
-        $this->jumlahKriteria = $this->kriteriaModel->countAllResults();
     }
 
 

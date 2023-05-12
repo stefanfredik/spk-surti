@@ -25,10 +25,9 @@ class SiswaModel extends Model
         return $this->findAll();
     }
 
-    public function findAllNonBantuan()
+    public function findAllNonPeserta()
     {
         $this->select("siswa.*");
-        // $this->select("datablt.*");
         $this->join("peserta", "peserta.id_siswa = siswa.id", "left")->where("peserta.id", NULL);
         return $this->findAll();
     }

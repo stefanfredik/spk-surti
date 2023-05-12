@@ -1,3 +1,5 @@
+<?= $this->extend('temp/cetak/index'); ?>
+<?= $this->section("table"); ?>
 <div class="table-responsive">
     <table class="table table-bordered" id="table" width="100%" colspacing="0">
         <thead>
@@ -43,3 +45,5 @@
         </tbody>
     </table>
 </div>
+
+<?= $this->endSection(); ?>
