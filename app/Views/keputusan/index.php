@@ -5,7 +5,7 @@
         <div class="col">
             <div class="card border border-secondary">
                 <div class="card-header">
-                    <h3>Tabel Kriteria</h3>
+                    <h3><?= $meta["title"]; ?></h3>
                 </div>
                 <div id="data" class="card-body">
                     <div class="table-responsive">

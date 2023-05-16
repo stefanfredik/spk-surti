@@ -44,17 +44,17 @@
 
     <div class="sidenav-menu-heading">Pengelolahan</div>
     <a class="nav-link <?= url_is('/kuota') ? 'active' : '' ?>" href="/kuota">
-        <div class="nav-link-icon"><i data-feather="percent"></i></div>
-        Data Kuota
+        <div class="nav-link-icon"><i class="bi bi-border-width text-white"></i></div>
+        Tahap Beasiswa
     </a>
 
     <a class="nav-link <?= url_is('/perhitungan') ? 'active' : '' ?>" href="/perhitungan">
-        <div class="nav-link-icon"><i data-feather="percent"></i></div>
+        <div class="nav-link-icon"><i class="bi bi-calculator text-white"></i></div>
         Data Perhitungan
     </a>
 
     <a class="nav-link <?= url_is('/keputusan') ? 'active' : '' ?>" href="/keputusan">
-        <div class="nav-link-icon"><i data-feather="percent"></i></div>
+        <div class="nav-link-icon"><i class="bi bi-check2-all text-white"></i></div>
         Data Keputusan
     </a>
 

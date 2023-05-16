@@ -6,7 +6,7 @@
 </head>
 <?= $this->include("temp/layout/head"); ?>
 
-<body class="bg-primary">
+<body class="" style="background-color: --var('bg-primary');">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>

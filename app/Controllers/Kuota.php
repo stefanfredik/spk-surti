@@ -12,8 +12,8 @@ class Kuota extends BaseController
 
     var $meta = [
         'url' => 'kuota',
-        'title' => 'Kuota dan Periode',
-        'subtitle' => 'Halaman Kuota dan Periode'
+        'title' => 'Tahap Beasiswa',
+        'subtitle' => 'Data Tahap Beasiswa'
     ];
 
 
@@ -26,7 +26,7 @@ class Kuota extends BaseController
     {
         $data = [
             'meta' => $this->meta,
-            'title' => 'Data Kuota dan Periode'
+            'title' => $this->meta["subtitle"]
         ];
 
         return view("kuota/index", $data);
