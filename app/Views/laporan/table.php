@@ -29,7 +29,7 @@
                     <td><?= $dt['tanggal_lahir']; ?></td>
                     <td><?= $dt['tempat_lahir']; ?></td>
                     <td><?= $dt['kelas']; ?></td>
-                    <td><?= $dt['alamat']; ?></td>
+                    <td><?= $dt['alamat']; ?></td>  
                     <td><?= $dt['nilaiAkhir']; ?></td>
                     <td><?= $no; ?></td>
                     <td><?= $dt['status']; ?></td>

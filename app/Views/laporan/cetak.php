@@ -32,7 +32,7 @@
                     <td><?= $dt['tempat_lahir']; ?></td>
                     <td><?= $dt['kelas']; ?></td>
                     <td><?= $dt['alamat']; ?></td>
-                    <td><?= $dt['nilaiAkhir']; ?></td>
+                    <td><?= $dt['nilaiAkhir']; ?></td>g
                     <td><?= $no; ?></td>
                     <td><?= $dt['status']; ?></td>
                     <td><?= 'Periode ' . $dt['periode']; ?></td>
