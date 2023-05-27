@@ -17,6 +17,10 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="topsis-tab" data-bs-toggle="tab" data-bs-target="#topsis" type="button" role="tab" aria-controls="topsis-tab-pane" aria-selected="false">Topsis</button>
             </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="mooraTopsis-tab" data-bs-toggle="tab" data-bs-target="#mooraTopsis" type="button" role="tab" aria-controls="mooraTopsis-tab-pane" aria-selected="false">Kombinasi Moora Topsis</button>
+            </li>
         </ul>
 
         <div class="tab-content" id="myTabContent">
@@ -24,6 +28,7 @@
             <?= $this->include("perhitungan/peserta"); ?>
             <?= $this->include("perhitungan/moora"); ?>
             <?= $this->include("perhitungan/topsis"); ?>
+            <?= $this->include("perhitungan/mooraTopsis"); ?>
         </div>
     </div>
 </div>

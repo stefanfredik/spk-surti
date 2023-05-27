@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-class Moora {
+class MooraTopsisLib {
     var $peserta            = array();
     var $kriteria           = array();
     var $nilaiKriteria      = array();
@@ -16,6 +16,11 @@ class Moora {
     var $jumKriteriaCost = 0;
 
 
+    // topsis
+    public $aPlus = [];
+    public $aMinus = [];
+
+
 
     var $pesertaKriteria = array();
 
@@ -24,13 +29,23 @@ class Moora {
         public array $dataKriteria,
         public array $dataSubkriteria,
     ) {
+        // moora
         $this->setBobotKriteria();
         $this->insertKriteria();
         $this->setPesertaKriteriaValue();
         $this->sumKriteriaValue();
         $this->insertToPeserta();
         // $this->sortPeserta();
-        $this->countBenCost();
+
+        // topsis
+        $this->hitungAplus();
+        $this->hitungAminus();
+        $this->hitungSolusiIdealPositive();
+        $this->hitungSolusiIdealNegative();
+        $this->hitungNilaiAkhir();
+
+
+        $this->sortPeserta();
     }
 
     public function getAllPeserta() {
@@ -145,42 +160,12 @@ class Moora {
                 }
             }
         }
-
-        // Data Max ke array
-        foreach ($this->peserta as $i =>  $ps) {
-            $this->peserta[$i]['kriteria_max'] = array_sum($ps['data_kriteria_benefit']);
-        }
-
-
-        // Min ke array
-        foreach ($this->peserta  as $i =>  $ps) {
-            $this->peserta[$i]['kriteria_min'] = array_sum($ps['data_kriteria_cost']);
-        }
-
-
-        // Nilai ke array
-        foreach ($this->peserta as $i => $ps) {
-            $this->peserta[$i]['kriteria_nilai'] = ($ps['kriteria_max'] - $ps['kriteria_min']);
-        }
     }
-
-
-    // Hitung Jumlah Key Kriteria
-    private function countBenCost() {
-        foreach ($this->dataKriteria as $dk) {
-            if ($dk['type'] == 'benefit') {
-                $this->jumKriteriaBenefit++;
-            } else {
-                $this->jumKriteriaCost++;
-            }
-        }
-    }
-
 
 
     // helper function 
     public function sortPeserta() {
-        usort($this->peserta, fn ($a, $b) => $b['kriteria_nilai'] <=> $a['kriteria_nilai']);
+        usort($this->peserta, fn ($a, $b) => $b['nilaiAkhir'] <=> $a['nilaiAkhir']);
     }
 
     private function hitungBobot(int $nk, array $allNk) {
@@ -216,6 +201,64 @@ class Moora {
     private function optimasi($nilai, $bobot): float {
         return number_format($nilai * $bobot, 3);
         // return ($nilai * $bobot);
+    }
+
+
+    // Topsis
+    private function hitungAplus() {
+        foreach ($this->dataKriteria as $dk) {
+            $tempMax[$dk["keterangan"]] = [];
+
+            foreach ($this->peserta as $key =>  $da) {
+                array_push($tempMax[$dk["keterangan"]], $da['data_optimasi'][$dk["keterangan"]]);
+            }
+
+            $this->aPlus[$dk["keterangan"]] = max($tempMax[$dk["keterangan"]]);
+        }
+    }
+
+    private function hitungAminus() {
+        foreach ($this->dataKriteria as $dk) {
+            $tempMax[$dk["keterangan"]] = [];
+
+            foreach ($this->peserta as $key =>  $da) {
+                array_push($tempMax[$dk["keterangan"]], $da['data_optimasi'][$dk["keterangan"]]);
+            }
+
+            $this->aMinus[$dk["keterangan"]] = min($tempMax[$dk["keterangan"]]);
+        }
+    }
+
+    private function hitungSolusiIdealPositive() {
+
+        foreach ($this->peserta as $key => $da) {
+            $temp = 0;
+            foreach ($this->dataKriteria as $dk) {
+                $temp += pow($this->aPlus[$dk["keterangan"]] - $da['data_optimasi'][$dk["keterangan"]], 2);
+            }
+
+            $this->peserta[$key]["idealPositive"] =  number_format(sqrt($temp), 3);
+        }
+    }
+
+
+    private function hitungSolusiIdealNegative() {
+
+        foreach ($this->peserta as $key => $da) {
+            $temp = 0;
+            foreach ($this->dataKriteria as $dk) {
+                $temp += pow($this->aMinus[$dk["keterangan"]] - $da['data_optimasi'][$dk["keterangan"]], 2);
+            }
+
+            $this->peserta[$key]["idealNegative"] = number_format(sqrt($temp), 3);
+        }
+    }
+
+
+    private function hitungNilaiAkhir() {
+        foreach ($this->peserta as $key => $da) {
+            $this->peserta[$key]['nilaiAkhir'] = number_format($da["idealNegative"] / ($da['idealNegative'] + $da['idealPositive']), 3);
+        }
     }
 
     public function setRangking() {

@@ -86,7 +86,7 @@
             </div>
 
             <div>
-                <p style="font-weight: bold; margin: 0;">( Antonius Supriadi, S.Pd,Gr)</p>
+                <p style="font-weight: bold; margin: 0;">( Antonius Supriadi, S.Pd,Gr )</p>
                 <!-- <p style="margin: 0;">Pembi</p> -->
                 <p style="margin: 0;">NIP. 19860527200904 1 001</p>
             </div>
