@@ -20,8 +20,8 @@
                                     <th>NISN</td>
                                     <th>Nama Lengkap</th>
                                     <th>Jenis Kelamin</td>
-                                    <th>Nilai Moora</td>
-                                    <th>Nilai Topsis</td>
+                                    <th>Nilai Akhir</td>
+                                        <!-- <th>Nilai Topsis</td> -->
                                     <th>Keputusan</th>
                                     <th>Periode</th>
                                     <th>Waktu Terima</th>
@@ -41,8 +41,7 @@
                                         <td><?= $ps['nisn'] ?></td>
                                         <td><?= $ps['nama_lengkap'] ?></td>
                                         <td><?= $ps['jenis_kelamin'] ?></td>
-                                        <td><?= $ps['nilaiMoora']; ?></td>
-                                        <td><?= $ps['nilaiTopsis']; ?></td>
+                                        <td><?= $ps['nilaiAkhir']; ?></td>
                                         <td><?= $ps['status']; ?></td>
                                         <td><?= $ps['periode']; ?></td>
                                         <td><?= $ps['tanggalTerima']; ?></td>

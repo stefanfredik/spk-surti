@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\Moora;
+use App\Libraries\MooraTopsisLib;
 use App\Libraries\TopsisLib;
 use App\Models\KelayakanModel;
 use App\Models\KriteriaModel;
@@ -13,8 +14,7 @@ use App\Models\SiswaModel;
 use App\Models\SubkriteriaModel;
 use CodeIgniter\API\ResponseTrait;
 
-class Keputusan extends BaseController
-{
+class Keputusan extends BaseController {
     use ResponseTrait;
     var $meta = [
         'url' => 'keputusan',
@@ -22,8 +22,7 @@ class Keputusan extends BaseController
         'subtitle' => 'Halaman Keputusan'
     ];
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->kriteriaModel = new KriteriaModel();
         $this->siswaModel = new SiswaModel();
         $this->subkriteriaModel = new SubkriteriaModel();
@@ -63,8 +62,7 @@ class Keputusan extends BaseController
     // }
 
 
-    public function index()
-    {
+    public function index() {
         $data = [
             'title' => $this->meta['title'],
             'dataKriteria' => $this->kriteriaModel->findAll(),
@@ -78,39 +76,38 @@ class Keputusan extends BaseController
     }
 
 
-    private function data()
-    {
+    private function data() {
         $peserta = $this->pesertaModel->findAllPeserta();
         $kriteria = $this->kriteriaModel->findAll();
         $subkriteria = $this->subkriteriaModel->findAll();
 
-        $moora = new Moora($peserta, $kriteria, $subkriteria);
-        $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+        // $moora = new Moora($peserta, $kriteria, $subkriteria);
+        // $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+        $mooraTopsis = new MooraTopsisLib($peserta, $kriteria, $subkriteria);
 
-        $moora->setRangking();
+        $mooraTopsis->setRangking();
 
-        $mooraPeserta = $moora->getAllPeserta();
-        $topsisPeserta = $topsis->getAllPeserta();
+        $mooraTopsisPeserta = $mooraTopsis->getAllPeserta();
+        // $topsisPeserta = $topsis->getAllPeserta();
 
         $dataKuota = $this->kuotaModel->findAll();
 
-        $data = $this->statusKeputusan($mooraPeserta, $dataKuota);
+        $data = $this->statusKeputusan($mooraTopsisPeserta, $dataKuota);
 
         // dd($mooraPeserta)
-        foreach ($mooraPeserta  as $key => $moora) {
-            $data[$key]["nilaiMoora"] = $moora["kriteria_nilai"];
-        }
+        // foreach ($mooraPeserta  as $key => $moora) {
+        //     $data[$key]["nilaiMoora"] = $moora["kriteria_nilai"];
+        // }
 
-        foreach ($topsisPeserta  as $key => $topsis) {
-            $data[$key]["nilaiTopsis"] = $topsis["nilaiAkhir"];
-        }
+        // foreach ($topsisPeserta  as $key => $topsis) {
+        //     $data[$key]["nilaiTopsis"] = $topsis["nilaiAkhir"];
+        // }
 
-        usort($data, fn ($a, $b) => $b['nilaiTopsis'] <=> $a['nilaiTopsis']);
+        usort($data, fn ($a, $b) => $b['nilaiAkhir'] <=> $a['nilaiAkhir']);
         return $data;
     }
 
-    private function statusKeputusan($dataPeserta, $dataKuota)
-    {
+    private function statusKeputusan($dataPeserta, $dataKuota) {
         // hitung kuota tahunan
         $kuotaTahun = [];
         foreach ($dataKuota as $row) {
@@ -152,8 +149,7 @@ class Keputusan extends BaseController
     }
 
 
-    public function validasi($id)
-    {
+    public function validasi($id) {
         $this->pesertaModel->update($id, ['validasi' => 'Valid']);
 
         $res = [
