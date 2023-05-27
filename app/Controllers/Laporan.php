@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\Moora;
+use App\Libraries\MooraTopsisLib;
 use App\Libraries\TopsisLib;
 use App\Models\KelayakanModel;
 use App\Models\KriteriaModel;
@@ -12,16 +13,14 @@ use App\Models\PesertaModel;
 use App\Models\SubkriteriaModel;
 use Dompdf\Dompdf;
 
-class Laporan extends BaseController
-{
+class Laporan extends BaseController {
     var $meta = [
         'url' => 'laporan',
         'title' => 'Laporan',
         'subtitle' => 'Halaman Laporan'
     ];
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->pesertaModel = new PesertaModel();
         $this->kriteriaModel = new KriteriaModel();
         $this->subkriteriaModel = new SubkriteriaModel();
@@ -30,8 +29,7 @@ class Laporan extends BaseController
     }
 
 
-    public function index()
-    {
+    public function index() {
         $data = [
             'title' => $this->meta['title'],
             'dataKriteria' => $this->kriteriaModel->findAll(),
@@ -45,46 +43,45 @@ class Laporan extends BaseController
 
 
 
-    public function cetak()
-    {
+    public function cetak() {
         $data['peserta'] = $this->data();
         $data["title"] = 'LAPORAN ' . APP_DESC;
         $this->pdf($data, "laporan/cetak");
     }
-    private function data()
-    {
+
+    private function data() {
         $peserta = $this->pesertaModel->findAllPeserta();
         $kriteria = $this->kriteriaModel->findAll();
         $subkriteria = $this->subkriteriaModel->findAll();
 
-        $moora = new Moora($peserta, $kriteria, $subkriteria);
-        $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+        // $moora = new Moora($peserta, $kriteria, $subkriteria);
+        // $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
+        $mooraTopsis = new MooraTopsisLib($peserta, $kriteria, $subkriteria);
 
-        $moora->setRangking();
+        $mooraTopsis->setRangking();
 
-        $mooraPeserta = $moora->getAllPeserta();
-        $topsisPeserta = $topsis->getAllPeserta();
+        $mooraTopsisPeserta = $mooraTopsis->getAllPeserta();
+        // $topsisPeserta = $topsis->getAllPeserta();
 
         $dataKuota = $this->kuotaModel->findAll();
 
-        $data = $this->statusKeputusan($mooraPeserta, $dataKuota);
+        $data = $this->statusKeputusan($mooraTopsisPeserta, $dataKuota);
 
         // dd($mooraPeserta)
-        foreach ($mooraPeserta  as $key => $moora) {
-            $data[$key]["nilaiMoora"] = $moora["kriteria_nilai"];
-        }
+        // foreach ($mooraPeserta  as $key => $moora) {
+        //     $data[$key]["nilaiMoora"] = $moora["kriteria_nilai"];
+        // }
 
-        foreach ($topsisPeserta  as $key => $topsis) {
-            $data[$key]["nilaiTopsis"] = $topsis["nilaiAkhir"];
-        }
+        // foreach ($topsisPeserta  as $key => $topsis) {
+        //     $data[$key]["nilaiTopsis"] = $topsis["nilaiAkhir"];
+        // }
 
-        usort($data, fn ($a, $b) => $b['nilaiTopsis'] <=> $a['nilaiTopsis']);
+        usort($data, fn ($a, $b) => $b['nilaiAkhir'] <=> $a['nilaiAkhir']);
         return $data;
     }
 
 
-    private function statusKeputusan($dataPeserta, $dataKuota)
-    {
+    private function statusKeputusan($dataPeserta, $dataKuota) {
         // hitung kuota tahunan
         $kuotaTahun = [];
         foreach ($dataKuota as $row) {
@@ -126,8 +123,7 @@ class Laporan extends BaseController
     }
 
 
-    private function pdf(array $data, String $view)
-    {
+    private function pdf(array $data, String $view) {
         $pdf = new Dompdf(array('DOMPDF_ENABLE_REMOTE' => true));
 
         $html = view($view, $data);
