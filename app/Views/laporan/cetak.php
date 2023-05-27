@@ -12,8 +12,7 @@
                 <th class="text-center">Tempat Lahir</th>
                 <th class="text-center">Kelas</th>
                 <th class="text-center">Alamat</th>
-                <th class="text-center">Nilai Moora</th>
-                <th class="text-center">Nilai Topsis</th>
+                <th class="text-center">Nilai Laporan</th>
                 <th class="text-center">Rangking</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Periode</th>
@@ -33,8 +32,7 @@
                     <td><?= $dt['tempat_lahir']; ?></td>
                     <td><?= $dt['kelas']; ?></td>
                     <td><?= $dt['alamat']; ?></td>
-                    <td><?= $dt['nilaiMoora']; ?></td>
-                    <td><?= $dt['nilaiTopsis']; ?></td>
+                    <td><?= $dt['nilaiAkhir']; ?></td>
                     <td><?= $no; ?></td>
                     <td><?= $dt['status']; ?></td>
                     <td><?= 'Periode ' . $dt['periode']; ?></td>
