@@ -156,11 +156,11 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $no = 1;
+                                $no = 0;
                                 foreach ($mooraPeserta as $ps) :
                                 ?>
                                     <tr>
-                                        <td><?= $no++; ?></td>
+                                        <td><?= ++$no; ?></td>
                                         <td width="80px" class="text-center"><?= $no ?></td>
                                         <td><?= $ps['nama_lengkap']; ?></td>
                                         <td><?= $ps['kriteria_max']; ?></td>
