@@ -12,7 +12,8 @@ use App\Libraries\Moora;
 use App\Libraries\MooraTopsisLib;
 use App\Libraries\TopsisLib;
 
-class Perhitungan extends BaseController {
+class Perhitungan extends BaseController
+{
     var $meta = [
         'url' => 'perhitungan',
         'title' => 'Data Pehitungan',
@@ -21,7 +22,8 @@ class Perhitungan extends BaseController {
 
     private $totalNilaiKriteria;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->kriteriaModel = new KriteriaModel();
         $this->siswaModel = new SiswaModel();
         $this->subkriteriaModel = new SubkriteriaModel();
@@ -29,8 +31,8 @@ class Perhitungan extends BaseController {
         $this->kelayakanModel = new KelayakanModel();
     }
 
-
-    public function index() {
+    public function index()
+    {
         $kriteria       = $this->kriteriaModel->findAll();
         $subkriteria    = $this->subkriteriaModel->findAll();
         $peserta        = $this->pesertaModel->findAllPeserta();
@@ -43,14 +45,13 @@ class Perhitungan extends BaseController {
         // $moora = new Moora($peserta, $kriteria, $subkriteria, $kelayakan);
         $moora = new Moora($peserta, $kriteria, $subkriteria);
         $topsis = new TopsisLib($peserta, $kriteria, $subkriteria);
-
-
         $mooraTopsis = new MooraTopsisLib($peserta, $kriteria, $subkriteria);
 
+        $topsis->sortPeserta();
+        $moora->sortPeserta();
+
         // dd($data);
-
         // dd($topsis);
-
 
         $data = [
             'title' => 'Data Perhitungan dan Table Moora',
@@ -66,7 +67,6 @@ class Perhitungan extends BaseController {
             'topsisAminus' => $topsis->aMinus,
             "meta"  => $this->meta,
             // moora and topsis
-
             "mooraTopsisPeserta" => $mooraTopsis->getAllPeserta(),
             'mooraTopsisAplus' => $mooraTopsis->aPlus,
             'mooraTopsisAminus' => $mooraTopsis->aMinus,

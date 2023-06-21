@@ -147,6 +147,7 @@
                             <thead>
                                 <tr>
                                     <th width="80px">No</th>
+                                    <th width="80px" class="text-center">Rangking</th>
                                     <th>Peserta</th>
                                     <th>Max</th>
                                     <th>Min</th>
@@ -160,6 +161,7 @@
                                 ?>
                                     <tr>
                                         <td><?= $no++; ?></td>
+                                        <td width="80px" class="text-center"><?= $no ?></td>
                                         <td><?= $ps['nama_lengkap']; ?></td>
                                         <td><?= $ps['kriteria_max']; ?></td>
                                         <td><?= $ps['kriteria_min']; ?></td>

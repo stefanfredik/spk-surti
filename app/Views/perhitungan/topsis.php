@@ -182,6 +182,7 @@
                                 <thead>
                                     <tr>
                                         <th width="80px">No</th>
+                                        <th width="80px">Rangking</th>
                                         <th>Peserta</th>
                                         <th>Nilai</th>
                                     </tr>
@@ -193,6 +194,7 @@
                                     ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
+                                            <td width="80px" class="text-center"><?= $no ?></td>
                                             <td><?= $ps['nama_lengkap']; ?></td>
                                             <td><?= $ps['nilaiAkhir']; ?></td>
                                         </tr>
